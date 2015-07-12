@@ -8,4 +8,8 @@
     <color name="secondary_text">#727272</color>
     <color name="icons">#FFFFFF</color>
     <color name="divider">#B6B6B6</color>
+    <color name="colorControlNormal">#FFFFFF</color>
+    <color name="colorControlActivated">@color/accent</color>
+    <color name="colorControlHighlight">@color/accent</color>
+    <color name="transparent">#FFFFFFFF</color>
 </resources>

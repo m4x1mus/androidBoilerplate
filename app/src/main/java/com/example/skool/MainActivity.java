@@ -1,18 +1,23 @@
 package com.example.skool;
 
+import android.graphics.Color;
 import android.os.Bundle;
+import android.support.design.widget.TabLayout;
 import android.support.v4.view.GravityCompat;
+import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
-import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+
+import com.example.skool.adapters.ViewPagerAdapter;
+import com.example.skool.fragments.testFragment;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -25,10 +30,19 @@ public class MainActivity extends ActionBarActivity {
     @Bind(R.id.drawer_layout)
     DrawerLayout drawerLayout;
 
+    @Bind(R.id.viewpager)
+    ViewPager viewPager;
+
+    @Bind(R.id.tabLayout)
+    TabLayout tabLayout;
+
     private ActionBarDrawerToggle drawerToggle;
+    private ViewPagerAdapter pagerAdapter;
 
     @Bind(R.id.navdrawer)
     ListView drawerList;
+
+    private String titles[] = new String[]{"Week", "Month", "Year"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,7 +51,12 @@ public class MainActivity extends ActionBarActivity {
 
         ButterKnife.bind(this);
         setSupportActionBar(toolbar);
-        toolbar.setNavigationIcon(R.drawable.ic_menu_sort_by_size);
+        toolbar.setNavigationIcon(R.drawable.ic_menu_white_18dp);
+        toolbar.getBackground().setAlpha(0);
+
+
+        setupViewPager(viewPager);
+        tabLayout.setupWithViewPager(viewPager);
 
         drawerToggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.app_name, R.string.app_name);
         drawerLayout.setDrawerListener(drawerToggle);
@@ -56,25 +75,25 @@ public class MainActivity extends ActionBarActivity {
                                     int position, long id) {
                 switch (position) {
                     case 0:
-                        drawerList.setBackgroundColor(getResources().getColor(R.color.material_deep_teal_500));
-                        toolbar.setBackgroundColor(getResources().getColor(R.color.material_deep_teal_500));
+                        drawerList.setBackgroundColor(getResources().getColor(R.color.icons));
+                        toolbar.setBackgroundColor(getResources().getColor(R.color.primary));
                         drawerLayout.closeDrawer(GravityCompat.START);
                         break;
                     case 1:
-                        drawerList.setBackgroundColor(getResources().getColor(R.color.primary));
+                        drawerList.setBackgroundColor(getResources().getColor(R.color.primary_light));
                         toolbar.setBackgroundColor(getResources().getColor(R.color.primary_light));
                         drawerLayout.closeDrawer(GravityCompat.START);
 
                         break;
                     case 2:
-                        drawerList.setBackgroundColor(getResources().getColor(R.color.primary_dark));
+                        drawerList.setBackgroundColor(getResources().getColor(R.color.icons));
                         toolbar.setBackgroundColor(getResources().getColor(R.color.primary_dark));
                         drawerLayout.closeDrawer(GravityCompat.START);
 
                         break;
                     case 3:
-                        drawerList.setBackgroundColor(getResources().getColor(R.color.material_blue_grey_800));
-                        toolbar.setBackgroundColor(getResources().getColor(R.color.material_blue_grey_800));
+                        drawerList.setBackgroundColor(getResources().getColor(R.color.material_deep_teal_500));
+                        toolbar.setBackgroundColor(getResources().getColor(R.color.material_deep_teal_500));
                         drawerLayout.closeDrawer(GravityCompat.START);
 
                         break;
@@ -84,6 +103,9 @@ public class MainActivity extends ActionBarActivity {
         });
     }
 
+    private void setupViewPager(ViewPager viewPager) {
+        viewPager.setAdapter(new ViewPagerAdapter(getSupportFragmentManager(), titles));
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
