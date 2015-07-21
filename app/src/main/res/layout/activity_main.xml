@@ -39,7 +39,7 @@
         android:layout_marginTop="?attr/actionBarSize"
         android:background="@color/icons"
         android:choiceMode="singleChoice"
-        android:divider="@android:color/white"
+        android:divider="@color/divider"
         android:dividerHeight="1dp"
         android:drawSelectorOnTop="false"></ListView>
 </android.support.v4.widget.DrawerLayout>

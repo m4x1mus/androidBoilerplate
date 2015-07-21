@@ -3,12 +3,13 @@ package com.example.skool;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ProgressBar;
 
 import com.example.skool.common.Constants;
@@ -20,30 +21,33 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 
-public class PhoneRegisterActivity extends ActionBarActivity {
-    @Bind(R.id.register)
-    Button register;
+public class OTPSubmitActivity extends ActionBarActivity {
+    @Bind(R.id.otp_submit)
+    Button otp_submit;
 
-    @Bind(R.id.progressBar)
+    @Bind(R.id.progressBar2)
     ProgressBar pb;
+
+    @Bind(R.id.otp_number)
+    EditText otp_number;
 
     private Context ctx;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_phone_register);
+        setContentView(R.layout.activity_otp_register);
         this.ctx = this;
         ButterKnife.bind(this);
-        pb.setVisibility(View.INVISIBLE);
     }
 
-    @OnClick(R.id.register)
-    public void register(){
+    @OnClick(R.id.otp_submit)
+    public void submit(){
         PackageParams params = new PackageParams();
         params.setMethod("POST");
-        params.setUri(Constants.REGISTER_API);
+        params.setUri(Constants.OTP_VERIFY_API);
         params.setParam("phone",Constants.PHONE);
+        params.setParam("otp",otp_number.getText().toString());
         new PhoneRegistertask().execute(params);
     }
 
@@ -90,7 +94,7 @@ public class PhoneRegisterActivity extends ActionBarActivity {
         protected void onPostExecute(String result) {
             pb.setVisibility(View.INVISIBLE);
             System.out.println(result);
-            Intent intent = new Intent(ctx, OTPSubmitActivity.class);
+            Intent intent = new Intent(ctx, MainActivity.class);
             startActivity(intent);
             finish();
         }

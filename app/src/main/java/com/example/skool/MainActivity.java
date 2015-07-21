@@ -43,6 +43,9 @@ public class MainActivity extends ActionBarActivity {
     ListView drawerList;
 
     private String titles[] = new String[]{"Week", "Month", "Year"};
+    String[] values = new String[]{
+            "Overview", "Notices", "Emergency", "Fees Payments", "Settings"
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,9 +66,6 @@ public class MainActivity extends ActionBarActivity {
         //getSupportActionBar().setHomeButtonEnabled(true);
         //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        String[] values = new String[]{
-                "DEFAULT", "RED", "BLUE", "MATERIAL GREY"
-        };
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
                 android.R.layout.simple_list_item_1, android.R.id.text1, values);
         drawerList.setAdapter(adapter);

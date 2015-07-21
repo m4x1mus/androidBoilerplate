@@ -10,4 +10,6 @@
     <string name="tac">Terms And Conditions</string>
     <string name="signUp">Sign Up</string>
     <string name="overview">Overview</string>
+    <string name="otp_label">Enter OTP</string>
+    <string name="otp_submit">Submit</string>
 </resources>
