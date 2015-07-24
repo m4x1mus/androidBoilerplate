@@ -1,5 +1,6 @@
 package com.example.skool;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
@@ -17,7 +18,13 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import com.example.skool.adapters.ViewPagerAdapter;
+import com.example.skool.db.DatabaseHelper;
 import com.example.skool.fragments.testFragment;
+import com.example.skool.models.Preferences;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -36,21 +43,33 @@ public class MainActivity extends ActionBarActivity {
     @Bind(R.id.tabLayout)
     TabLayout tabLayout;
 
-    private ActionBarDrawerToggle drawerToggle;
-    private ViewPagerAdapter pagerAdapter;
-
     @Bind(R.id.navdrawer)
     ListView drawerList;
 
+    private ActionBarDrawerToggle drawerToggle;
+    private ViewPagerAdapter pagerAdapter;
     private String titles[] = new String[]{"Week", "Month", "Year"};
     String[] values = new String[]{
             "Overview", "Notices", "Emergency", "Fees Payments", "Settings"
     };
+    private DatabaseHelper databaseHelper;
+    private List<Preferences> preferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        databaseHelper = new DatabaseHelper(getApplicationContext());
+        //Preferences test = new Preferences("token",System.currentTimeMillis());
+        //databaseHelper.addPreferences(test);
+
+        preferences = databaseHelper.getPreferences();
+        if(!(preferences.size()>0)){
+            Intent intent = new Intent(getApplicationContext(), PhoneRegisterActivity.class);
+            startActivity(intent);
+            finish();
+        }
 
         ButterKnife.bind(this);
         setSupportActionBar(toolbar);

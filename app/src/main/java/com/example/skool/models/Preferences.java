@@ -1,8 +1,10 @@
 package com.example.skool.models;
 
+import com.j256.ormlite.field.DataType;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
@@ -19,4 +21,36 @@ public class Preferences {
 
     @DatabaseField
     private Date dateCreated;
+
+    public Preferences() {
+    }
+
+    public Preferences(String token, long dateCreated) {
+        this.token = token;
+        this.dateCreated = new Date(dateCreated);
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
+    }
+
+    public Date getDateCreated() {
+        return dateCreated;
+    }
+
+    public void setDateCreated(Date dateCreated) {
+        this.dateCreated = dateCreated;
+    }
 }
