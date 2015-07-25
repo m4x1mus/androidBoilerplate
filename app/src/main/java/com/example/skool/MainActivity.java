@@ -1,7 +1,6 @@
 package com.example.skool;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.GravityCompat;
@@ -19,11 +18,8 @@ import android.widget.ListView;
 
 import com.example.skool.adapters.ViewPagerAdapter;
 import com.example.skool.db.DatabaseHelper;
-import com.example.skool.fragments.testFragment;
 import com.example.skool.models.Preferences;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 
 import butterknife.Bind;
@@ -61,8 +57,6 @@ public class MainActivity extends ActionBarActivity {
         setContentView(R.layout.activity_main);
 
         databaseHelper = new DatabaseHelper(getApplicationContext());
-        //Preferences test = new Preferences("token",System.currentTimeMillis());
-        //databaseHelper.addPreferences(test);
 
         preferences = databaseHelper.getPreferences();
         if(!(preferences.size()>0)){

@@ -1,9 +1,6 @@
 package com.example.skool.fragments;
 
-import android.app.Activity;
 import android.content.Context;
-import android.graphics.Color;
-import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -17,16 +14,12 @@ import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import lecho.lib.hellocharts.model.Line;
-import lecho.lib.hellocharts.model.LineChartData;
 import lecho.lib.hellocharts.model.PieChartData;
-import lecho.lib.hellocharts.model.PointValue;
 import lecho.lib.hellocharts.model.SliceValue;
 import lecho.lib.hellocharts.util.ChartUtils;
-import lecho.lib.hellocharts.view.LineChartView;
 import lecho.lib.hellocharts.view.PieChartView;
 
-public class testFragment extends Fragment {
+public class mainFragment extends Fragment {
     @Bind(R.id.chart)
     PieChartView pieChartView;
 
@@ -39,8 +32,8 @@ public class testFragment extends Fragment {
     private boolean hasLabelsOutside = true;
     private boolean hasCenterCircle = true;
 
-    public static testFragment newInstance(int position) {
-        testFragment f = new testFragment();
+    public static mainFragment newInstance(int position) {
+        mainFragment f = new mainFragment();
         Bundle b = new Bundle();
         b.putInt(ARG_POSITION, position);
         f.setArguments(b);

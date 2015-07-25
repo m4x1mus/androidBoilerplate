@@ -3,7 +3,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
-import com.example.skool.fragments.testFragment;
+import com.example.skool.fragments.mainFragment;
 
 public class ViewPagerAdapter extends FragmentPagerAdapter {
 
@@ -20,11 +20,11 @@ public class ViewPagerAdapter extends FragmentPagerAdapter {
         switch (position) {
             // Open FragmentTab1.java
             case 0:
-                return testFragment.newInstance(position);
+                return mainFragment.newInstance(position);
             case 1:
-                return testFragment.newInstance(position);
+                return mainFragment.newInstance(position);
             case 2:
-                return testFragment.newInstance(position);
+                return mainFragment.newInstance(position);
         }
         return null;
     }

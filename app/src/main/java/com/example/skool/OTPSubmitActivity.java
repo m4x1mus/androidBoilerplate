@@ -11,15 +11,24 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.example.skool.common.Constants;
 import com.example.skool.common.PackageParams;
 import com.example.skool.common.Utils;
+import com.example.skool.db.DatabaseHelper;
+import com.example.skool.interfaces.BackendService;
+import com.example.skool.models.Preferences;
+import com.example.skool.models.REST_OTP_Register;
+import com.example.skool.models.REST_Phone_Register;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-
+import retrofit.Callback;
+import retrofit.RestAdapter;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
 
 public class OTPSubmitActivity extends ActionBarActivity {
     @Bind(R.id.otp_submit)
@@ -43,12 +52,42 @@ public class OTPSubmitActivity extends ActionBarActivity {
 
     @OnClick(R.id.otp_submit)
     public void submit(){
-        PackageParams params = new PackageParams();
-        params.setMethod("POST");
-        params.setUri(Constants.OTP_VERIFY_API);
-        params.setParam("phone",Constants.PHONE);
-        params.setParam("otp",otp_number.getText().toString());
-        new PhoneRegistertask().execute(params);
+        if(Utils.isOnline(ctx)) {
+            RestAdapter restAdapter = new RestAdapter.Builder()
+                    .setEndpoint(Constants.DOMAIN)
+                    .build();
+
+            BackendService bs = restAdapter.create(BackendService.class);
+            pb.setVisibility(View.VISIBLE);
+            bs.registerOTP(Constants.PHONE, new Callback<REST_OTP_Register>() {
+                @Override
+                public void success(REST_OTP_Register rest_otp_register, Response response) {
+                    pb.setVisibility(View.INVISIBLE);
+                    if (rest_otp_register.isValid()) {
+                        Preferences preferences = new Preferences(rest_otp_register.getAuth_key(), System.currentTimeMillis());
+                        DatabaseHelper databaseHelper = new DatabaseHelper(getApplicationContext());
+                        databaseHelper.addPreferences(preferences);
+                        Intent intent = new Intent(ctx, MainActivity.class);
+                        startActivity(intent);
+                        finish();
+                    } else {
+                        //Handle Error
+                    }
+                }
+
+                @Override
+                public void failure(RetrofitError retrofitError) {
+                    pb.setVisibility(View.INVISIBLE);
+                    Toast.makeText(ctx, "Fail:" + retrofitError, Toast.LENGTH_LONG).show();
+                    //Temporary Redirect for testing purpose. Remove in production below code
+                    Intent intent = new Intent(ctx, MainActivity.class);
+                    startActivity(intent);
+                    finish();
+                }
+            });
+        }else{
+            Toast.makeText(ctx, "Connect to Internet", Toast.LENGTH_LONG).show();
+        }
     }
 
     @Override
@@ -60,9 +99,6 @@ public class OTPSubmitActivity extends ActionBarActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
@@ -71,32 +107,5 @@ public class OTPSubmitActivity extends ActionBarActivity {
         }
 
         return super.onOptionsItemSelected(item);
-    }
-
-    class PhoneRegistertask extends AsyncTask<PackageParams, String, String> {
-        @Override
-        protected void onPreExecute() {
-
-            pb.setVisibility(View.VISIBLE);
-        }
-
-        @Override
-        protected String doInBackground(PackageParams... arg0) {
-            return Utils.getData(arg0[0]);
-        }
-
-        @Override
-        protected void onProgressUpdate(String... values) {
-
-        }
-
-        @Override
-        protected void onPostExecute(String result) {
-            pb.setVisibility(View.INVISIBLE);
-            System.out.println(result);
-            Intent intent = new Intent(ctx, MainActivity.class);
-            startActivity(intent);
-            finish();
-        }
     }
 }
