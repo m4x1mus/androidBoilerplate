@@ -19,7 +19,10 @@ import android.widget.ListView;
 import com.example.skool.adapters.ViewPagerAdapter;
 import com.example.skool.db.DatabaseHelper;
 import com.example.skool.models.Preferences;
+import com.google.android.gms.gcm.GoogleCloudMessaging;
+import com.google.android.gms.iid.InstanceID;
 
+import java.io.IOException;
 import java.util.List;
 
 import butterknife.Bind;
@@ -63,6 +66,14 @@ public class MainActivity extends ActionBarActivity {
             Intent intent = new Intent(getApplicationContext(), PhoneRegisterActivity.class);
             startActivity(intent);
             finish();
+        }
+        
+        InstanceID instanceID = InstanceID.getInstance(this);
+        try {
+            String token = instanceID.getToken(getString(R.string.gcm_senderId),
+                    GoogleCloudMessaging.INSTANCE_ID_SCOPE, null);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
 
         ButterKnife.bind(this);

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="phone_label">Enter Registered phone Number</string>
+    <string name="gcm_senderId">705023036257</string>
     <string name="aboutUs">About Us</string>
     <string name="signUp">Sign Up</string>
 </resources>

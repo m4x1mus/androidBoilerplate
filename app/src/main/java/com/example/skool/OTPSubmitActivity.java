@@ -14,7 +14,6 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.example.skool.common.Constants;
-import com.example.skool.common.PackageParams;
 import com.example.skool.common.Utils;
 import com.example.skool.db.DatabaseHelper;
 import com.example.skool.interfaces.BackendService;
