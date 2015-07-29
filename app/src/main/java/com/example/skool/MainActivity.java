@@ -1,5 +1,6 @@
 package com.example.skool;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
@@ -53,12 +54,13 @@ public class MainActivity extends ActionBarActivity {
     };
     private DatabaseHelper databaseHelper;
     private List<Preferences> preferences;
+    private Context ctx;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        ctx = getApplicationContext();
         databaseHelper = new DatabaseHelper(getApplicationContext());
 
         preferences = databaseHelper.getPreferences();
@@ -67,14 +69,20 @@ public class MainActivity extends ActionBarActivity {
             startActivity(intent);
             finish();
         }
-        
-        InstanceID instanceID = InstanceID.getInstance(this);
-        try {
-            String token = instanceID.getToken(getString(R.string.gcm_senderId),
-                    GoogleCloudMessaging.INSTANCE_ID_SCOPE, null);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+
+        Runnable runnable = new Runnable() {
+            public void run() {
+                InstanceID instanceID = InstanceID.getInstance(ctx);
+                try {
+                    String token = instanceID.getToken(getString(R.string.gcm_senderId),
+                            GoogleCloudMessaging.INSTANCE_ID_SCOPE, null);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        };
+        Thread gcmThread = new Thread(runnable);
+        gcmThread.start();
 
         ButterKnife.bind(this);
         setSupportActionBar(toolbar);
